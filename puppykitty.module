@@ -27,7 +27,7 @@ function puppykitty_init() {
  */
 /*
 function puppykitty_init() {
-  $_COOKIE['pet_type'] = isset($_GET['puppykitty']) ? $_GET['puppykitty'] : '';
+  $_COOKIE['pet_type'] = isset($_GET['puppykitty']) ? $_GET['puppykitty'] : $_COOKIE['pet_type'];
 
   switch ($_COOKIE['pet_type']) {
     case 'puppy':
