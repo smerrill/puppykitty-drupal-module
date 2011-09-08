@@ -1,0 +1,5 @@
+name = Puppy Kitty
+description = Let users choose between puppies and kitties.
+core = 6.x
+package = Animal Related Modules
+version = 6.x-1.x

@@ -1,0 +1,81 @@
+<?php
+
+/**
+ * A module for puppies and kitties.
+ */
+
+/**
+ * Implementation of hook_init().
+ * (A session-based version.)
+ */
+function puppykitty_init() {
+  $_SESSION['pet_type'] = isset($_GET['puppykitty']) ? $_GET['puppykitty'] : $_SESSION['pet_type'];
+
+  switch ($_SESSION['pet_type']) {
+    case 'puppy':
+      drupal_set_html_head('<style type="text/css">#wrapper { background-image: url(http://www.downlopedia.com/images/Puppy%20Power%20icon.jpg) !important; }</style>');
+      break;
+    case 'kitty':
+      drupal_set_html_head('<style type="text/css">#wrapper { background-image: url(http://placekitten.com.s3.amazonaws.com/homepage-samples/96/140.jpg) !important; }</style>');
+      break;
+  }
+}
+
+/**
+ * Implementation of hook_init().
+ * (A cookie-based version.)
+ */
+/*
+function puppykitty_init() {
+  $_COOKIE['pet_type'] = isset($_GET['puppykitty']) ? $_GET['puppykitty'] : '';
+
+  switch ($_COOKIE['pet_type']) {
+    case 'puppy':
+      drupal_set_html_head('<style type="text/css">#wrapper { background-image: url(http://www.downlopedia.com/images/Puppy%20Power%20icon.jpg) !important; }</style>');
+      break;
+    case 'kitty':
+      drupal_set_html_head('<style type="text/css">#wrapper { background-image: url(http://placekitten.com.s3.amazonaws.com/homepage-samples/96/140.jpg) !important; }</style>');
+      break;
+  }
+}
+*/
+
+/**
+ * Implementation of hook_menu().
+ */
+function puppykitty_block($op = 'list', $delta = 0, $edit = array()) {
+  if ($op == 'list') {
+    $blocks[0] = array(
+      'info' => t('Puppy kitty link block'),
+      'weight' => 0,
+      'status' => 1,
+      'region' => 'left',
+    );
+
+    return $blocks;
+  }
+  else if ($op == 'view') {
+    switch ($delta) {
+      case 0:
+        // Your module will need to define this function to render the block.
+        $block = array(
+          'subject' => t('Puppy Kitty Links'),
+          'content' => puppykitty_block_content(),
+        );
+        break;
+    }
+    return $block;
+  }
+}
+
+/**
+ * Block content function.
+ */
+function puppykitty_block_content() {
+  $options = array('query' => 'puppykitty=kitty');
+  $kitty_link = l('I like kitties', $_GET['q'], $options);
+  $options = array('query' => 'puppykitty=puppy');
+  $puppy_link = l('I like puppies', $_GET['q'], $options);
+
+  return "<p><ul><li>$kitty_link</li><li>$puppy_link</li></ul></p>";
+}
